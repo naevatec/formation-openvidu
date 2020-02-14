@@ -5,6 +5,7 @@
   <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
   <link rel="styleSheet" href="main.css" type="text/css" media="screen">
   <script src="ex1.js"></script>
+  <script src="openvidu-browser-2.11.0.js"></script>
 </head>
 
 <body>
@@ -17,8 +18,16 @@
     <li> OnClose closes the session. </li>
   </ol>
 </header>
-<!-- EXERCISE 1 Code -->
 
+<!-- EXERCISE 1 Code -->
+<div id="session" style="display: block;">
+   <h1 id="session-header"></h1>
+
+     <div>
+       <div id="publisher"><h3>YOU</h3></div>
+       <div id="subscriber"><h3>OTHERS</h3></div>
+     </div>
+</div>
 <!-- END Exercose 1 Code -->
 
 <footer>

@@ -21,9 +21,6 @@ function joinSession() {
 	OV = new OpenVidu();
 	session = OV.initSession();
 
-	session.on("streamCreated", function (event) {
-		session.subscribe(event.stream, "subscriber");
-	});
 
 	createSession("naevatec_courses").
 /* ----------------------------------------------------------- */
@@ -65,7 +62,7 @@ function leaveSession(){
   */
 
 var OPENVIDU_SERVER_URL = /* YOUR CONF : "https://" + openvidu + ":4443" */ "";
-var OPENVIDU_SERVER_SECRET = /* YOUR SECRET: "" */ "MY_SECRET";
+var OPENVIDU_SERVER_SECRET = /* YOUR SECRET: "" */ "";
 
 /*function getToken(mySessionId) {
 	return createSession(mySessionId).then(sessionId => createToken(sessionId));
