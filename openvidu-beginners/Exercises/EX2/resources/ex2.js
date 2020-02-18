@@ -1,12 +1,17 @@
 // HERE you have a skeleton for your js app (you can use this or not, it's up to you)
 
 /* ---------------- DECLARE VARS -------------- */
-
-
+var OV;
+var session;
+var page_console;
+var sessionEventList = ["stramPropertyChanged", "streamCreated","streamDestroyed", "connectionCreated", "connectionDestroyed","sessionDisconected", "signalEvent", "publisherStartSpeaking", "publisherStopSpeaking"];
+var publisherEventList = ["streamPlaying", /* ISSUE in OV 2.11.0 "streamAudioVolumeChange",*/  "videoElementCreated", "videoElementDestroyed","streamPropertyChanged","streamCreated","streamDestroyed"];
+var subscriberEventList = ["streamPlaying", /* ISSUE in OV 2.11.0 "streamAudioVolumeChange",*/ "videoElementCreated", "videoElementDestroyed","streamPropertyChanged"];
 /* -------------------------------------------- */
 
 
 window.onload = function(){
+   /* EX2 Initialise console */
    joinSession();
 }
 
@@ -17,10 +22,26 @@ window.onbeforeunload = function(){
 
 function joinSession() {
 
-/* -----  INITIALISE SESSION (Events not necessary in ex1) --- */
+/* ------------  INITIALISE SESSION AND EVENTS ---------------- */
+	OV = new OpenVidu();
+	session = OV.initSession();
+        
+        /* ------Ex2  Log Every Session event-------- */
+        
+        /* ------------------------------ */
 
+        /* ---------- Subscribe to new streams -------- */
+        session.on("streamCreated", function(event) {
+          var subscriber = session.subscribe(event.stream, "subscriber");
+          
+           /* --------- EX2  Subscribe to subscriber events ---------- */
+           
+           /* --------- Subscribe to subscriber events ---------- */
+          }
+        });
+        /* ------------------------------------------- */
 
-
+	createSession("naevatec_courses").
 /* ----------------------------------------------------------- */
 
 
@@ -35,6 +56,9 @@ function joinSession() {
 		session.connect(token)
 			.then(() => {
 				var publisher = OV.initPublisher("publisher");
+                                /* ---------- EX2:  Subscribe to publisher events ----------- */
+                                
+                                /* ---------------------------------------------------- */
 				session.publish(publisher);
 			})
 			.catch(error => {
@@ -48,8 +72,7 @@ function joinSession() {
 
 function leaveSession(){
 /* ---------- LEAVE SESSION -----------------*/
-
-
+  if (session) session.desconnect();
 /* ------------------------------------------*/
 }
 
@@ -63,13 +86,16 @@ function leaveSession(){
 var OPENVIDU_SERVER_URL = /* YOUR CONF : "https://" + openvidu + ":4443" */ "";
 var OPENVIDU_SERVER_SECRET = /* YOUR SECRET: "" */ "";
 
+/*function getToken(mySessionId) {
+	return createSession(mySessionId).then(sessionId => createToken(sessionId));
+}*/
 
 function createSession(sessionId) { // See https://openvidu.io/docs/reference-docs/REST-API/#post-apisessions
 	return new Promise((resolve, reject) => {
 		$.ajax({
-			type: //EX1:  which is the Method type? look for it in the reference
-			url: //EX1:  which is the API? look for it in the reference
-			data: JSON.stringify(/* EX1: parameters for the Request */),
+			type: "POST",
+			url: OPENVIDU_SERVER_URL + "/api/sessions",
+			data: JSON.stringify({ customSessionId: sessionId }),
 			headers: {
 				"Authorization": "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
 				"Content-Type": "application/json"
@@ -93,9 +119,9 @@ function createSession(sessionId) { // See https://openvidu.io/docs/reference-do
 function createToken(sessionId) { // See https://openvidu.io/docs/reference-docs/REST-API/#post-apitokens
 	return new Promise((resolve, reject) => {
 		$.ajax({
-                        type: //EX1:  which is the Method type? look for it in the reference
-                        url: //EX1:  which is the API? look for it in the reference
-                        data: JSON.stringify(/* EX1: parameters for the Request */),
+			type: "POST",
+			url: OPENVIDU_SERVER_URL + "/api/tokens",
+			data: JSON.stringify({ session: sessionId }),
 			headers: {
 				"Authorization": "Basic " + btoa("OPENVIDUAPP:" + OPENVIDU_SERVER_SECRET),
 				"Content-Type": "application/json"
