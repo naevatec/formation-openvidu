@@ -54,7 +54,7 @@ function Console (id, console){
     if (event.reason != undefined)
       msg = msg + " Reason: " + event.reason;
 
-    this._append(createMessage(msg , "session,"+event.type));
+    this._append(createMessage(msg , "session"));
   };
 
   this.logPublisherEvent = function (event){
@@ -66,7 +66,19 @@ function Console (id, console){
     if (event.reason != undefined)
       msg = msg + " Reason: " + event.reason;
 
-    this._append(createMessage(msg , "publisher," + event.type));
+    this._append(createMessage(msg , "publisher"));
+  };
+ 
+  this.logSubscriberEvent = function (event){
+    var msg = "[" + event.type + "]";
+
+    if (event.value != undefined)
+      msg = msg + "(" + event.value + ")";
+
+    if (event.reason != undefined)
+      msg = msg + " Reason: " + event.reason;
+
+    this._append(createMessage(msg , "subscriber"));
   };
 
 

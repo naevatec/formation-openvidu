@@ -4,6 +4,9 @@
 var OV;
 var session;
 var page_console;
+var sessionEventList = ["stramPropertyChanged", "streamCreated","streamDestroyed", "connectionCreated", "connectionDestroyed","sessionDisconected", "signalEvent", "publisherStartSpeaking", "publisherStopSpeaking"];
+var publisherEventList = ["streamPlaying", /* ISSUE in OV 2.11.0 "streamAudioVolumeChange",*/  "videoElementCreated", "videoElementDestroyed","streamPropertyChanged","streamCreated","streamDestroyed"];
+var subscriberEventList = ["streamPlaying", /* ISSUE in OV 2.11.0 "streamAudioVolumeChange",*/ "videoElementCreated", "videoElementDestroyed","streamPropertyChanged"];
 /* -------------------------------------------- */
 
 
@@ -23,10 +26,27 @@ function joinSession() {
 	OV = new OpenVidu();
 	session = OV.initSession();
         
-        session.on("streamCreated", function (event) {
-	  session.subscribe(event.stream, "subscriber");
-	  page_console.logSessionEvent(event);
+        /* ------ Log Everything -------- */
+	for (e of sessionEventList){
+          session.on( e, function (event) {
+	    page_console.logSessionEvent(event);
+          });
+        }
+        /* ------------------------------ */
+
+        /* ---------- Subscribe to new streams -------- */
+        session.on("streamCreated", function(event) {
+          var subscriber = session.subscribe(event.stream, "subscriber");
+          
+           /* --------- Subscribe to subscriber events ---------- */
+            for (e of subscriberEventList){
+             subscriber.on( e, function (event) {
+                page_console.logSubscriberEvent(event);
+            });
+           /* --------- Subscribe to subscriber events ---------- */
+          }
         });
+        /* ------------------------------------------- */
 
 	createSession("naevatec_courses").
 /* ----------------------------------------------------------- */
@@ -43,6 +63,11 @@ function joinSession() {
 		session.connect(token)
 			.then(() => {
 				var publisher = OV.initPublisher("publisher");
+                                /* ---------- Subscribe to publisher events ----------- */
+                                for (e of publisherEventList){
+                                  page_console.logPublisherEvent(event);
+                                }
+                                /* ---------------------------------------------------- */
 				session.publish(publisher);
 			})
 			.catch(error => {
@@ -67,8 +92,8 @@ function leaveSession(){
   * --------------------------
   */
 
-var OPENVIDU_SERVER_URL = /* YOUR CONF : "https://" + openvidu + ":4443" */ "https://demo.naevatec.com:4443";
-var OPENVIDU_SERVER_SECRET = /* YOUR SECRET: "" */ "N43V40v";
+var OPENVIDU_SERVER_URL = /* YOUR CONF : "https://" + openvidu + ":4443" */ "";
+var OPENVIDU_SERVER_SECRET = /* YOUR SECRET: "" */ "";
 
 /*function getToken(mySessionId) {
 	return createSession(mySessionId).then(sessionId => createToken(sessionId));

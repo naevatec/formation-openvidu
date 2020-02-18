@@ -40,3 +40,15 @@
 	color: #42cbf4;
 	font-weight: bold;
 }
+
+#console .session {
+  color: aquamarine;
+}
+
+#console .publisher {
+  color: yellow;
+}
+
+#console .subscriber {
+  color: coral;
+}
