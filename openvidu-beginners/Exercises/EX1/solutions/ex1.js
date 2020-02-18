@@ -50,7 +50,7 @@ function joinSession() {
 
 function leaveSession(){
 /* ---------- LEAVE SESSION -----------------*/
-  if (session) session.desconnect();
+  if (session) session.disconnect();
 /* ------------------------------------------*/
 }
 
