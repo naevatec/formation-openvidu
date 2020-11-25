@@ -38,9 +38,9 @@ public class SessionController {
 	private Map<String, Map<String, OpenViduRole>> mapSessionNamesTokens = new ConcurrentHashMap<>();
 
 	// URL where our OpenVidu server is listening
-	private String OPENVIDU_URL="https://{YOUR OPENVIDU}:4443/";
+	private String OPENVIDU_URL="https://demo.naevatec.com:4443/";
 	// Secret shared with our OpenVidu server
-	private String SECRET ="YOUR SECRET";
+	private String SECRET ="N43V40v";
 
 	// Fixed session name
 	private String sessionName = "your_user_naevatec";

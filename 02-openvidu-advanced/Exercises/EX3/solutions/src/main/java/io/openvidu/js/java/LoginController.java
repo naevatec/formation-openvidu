@@ -5,7 +5,6 @@ package io.openvidu.js.java;
  */
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -29,13 +28,13 @@ public class LoginController {
 
 	public class MyUser {
 
-		String nickname;
+		String username;
 		String email;
 		String pass;
 		OpenViduRole role;
 
-		public MyUser(String nickname, String pass, String email, OpenViduRole role) {
-			this.nickname = nickname;
+		public MyUser(String username, String pass, String email, OpenViduRole role) {
+			this.username = username;
 			this.pass = pass;
 			this.role = role;
 		}
